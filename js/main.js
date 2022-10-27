@@ -81,12 +81,12 @@ function init (){
 
 
 function generatePosts(){
-    posts.forEach(post => {
-        container.innerHTML += createDom(post);
+    posts.forEach((post, index) => {
+        container.innerHTML += createDom(post, index);
     })
 };
 
-function createDom(post){
+function createDom(post, index){
     const {id, content, media, author, likes,  created} = post;
     const {name, image} = author;
     const profilePhoto = generatePhoto(author);
@@ -110,7 +110,9 @@ function createDom(post){
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="${id}">
+                        <a class="like-button  js-like-button"
+                        onclick="handleLikeButton(${index})" 
+                        href="#" data-postid="${id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
@@ -151,4 +153,17 @@ function generatePhoto(author){
         profilePhoto = `<img class="profile-pic" src="${author.image}" alt="${author.name}">`
     }
     return profilePhoto;
+}
+
+
+// pulsante mi piace
+function handleLikeButton(index){
+   // creo html collection che è un array e prendo l'elemento che corrisponde all'indice
+   const likedBtn = document.getElementsByClassName('js-like-button')[index];
+
+   if(likedBtn.isClick){
+        likedBtn.classList.remove('like-button--liked');
+   }else{
+    likedBtn.classList.add('like-button--liked');
+   }
 }
