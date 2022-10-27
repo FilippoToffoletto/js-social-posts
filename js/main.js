@@ -97,7 +97,7 @@ function createDom(post){
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${name}</div>
-                        <div class="post-meta__time">${created}</div>
+                        <div class="post-meta__time">${dateEu(created)}</div>
                     </div>                    
                 </div>
             </div>
@@ -123,3 +123,13 @@ function createDom(post){
 
 return card;
 };
+
+/* 
+  funzione che inverte la data:
+  1 - splitlo la stringa al separatore del otterenere un array di stringhe
+  2 - reverse (inverto) l'array
+  3 join (contario di split) creo una stringa da un array mettendo il separatore      
+*/
+function dateEu(changeDate){
+    return changeDate.split('-').reverse().join('-');
+}
