@@ -1,3 +1,4 @@
+// BANCA DATI
 const posts = [
     {
         "id": 1,
@@ -62,7 +63,7 @@ Utilizzando la base dati fornita e prendendo come riferimento il layout di esemp
 Formattare le date in formato italiano (gg/mm/aaaa)----------------> OK
 ****BONUS**
 1
-Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
+Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo. ----------------> OK
 Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 2
 Gestire l’assenza dell’immagine profilo con un elemento di fallback che contiene le iniziali dell’utente (es. Luca Formicola > LF). ----------------> OK
@@ -71,22 +72,25 @@ Al click su un pulsante “Mi Piace” di un post, se abbiamo già cliccato dobb
 
 const container = document.getElementById('container');
 
-init();
 
+// inizializzo il tutto all'apertura della pagina
+init();
 
 
 function init (){
     generatePosts();
 };
 
-
+// funzione che  aggiuge i post in sequenza
 function generatePosts(){
-    posts.forEach((post, index) => {
-        container.innerHTML += createDom(post, index);
+    posts.forEach((post) => {
+        container.innerHTML += createDom(post);
     })
 };
 
-function createDom(post, index){
+
+// funzione crea i posts dinamicamente
+function createDom(post){
     const {id, content, media, author, likes,  created} = post;
     const {name, image} = author;
     const profilePhoto = generatePhoto(author);
@@ -111,7 +115,7 @@ function createDom(post, index){
                 <div class="likes js-likes">
                     <div class="likes__cta">
                         <a class="like-button  js-like-button"
-                        onclick="handleLikeButton(${index})" 
+                        onclick="likeBtn(this)"
                         href="#" data-postid="${id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
@@ -138,6 +142,8 @@ function dateEu(changeDate){
     return changeDate.split('-').reverse().join('-');
 }
 
+
+// genero la foto profilo se nel valore di author.name è null
 function generatePhoto(author){
     const splitName = author.name.split('');
     let profilePhoto;
@@ -156,14 +162,8 @@ function generatePhoto(author){
 }
 
 
-// pulsante mi piace
-function handleLikeButton(index){
-   // creo html collection che è un array e prendo l'elemento che corrisponde all'indice
-   const likedBtn = document.getElementsByClassName('js-like-button')[index];
 
-   if(likedBtn.isClick){
-        likedBtn.classList.remove('like-button--liked');
-   }else{
-    likedBtn.classList.add('like-button--liked');
-   }
-}
+// funzione per colorare il pulsante mi piace
+function likeBtn(btn) {
+    btn.classList.toggle("like-button--liked");
+  }
