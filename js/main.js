@@ -1,7 +1,7 @@
 const posts = [
     {
         "id": 1,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Bene ma non benissimo Et nihil ullam aut alias.",
         "media": "https://unsplash.it/600/300?image=171",
         "author": {
             "name": "Phil Mangione",
@@ -23,7 +23,7 @@ const posts = [
     },
     {
         "id": 3,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Bella la foto qui sotto è Parigi.",
         "media": "https://unsplash.it/600/400?image=234",
         "author": {
             "name": "Chiara Passaro",
@@ -34,7 +34,7 @@ const posts = [
     },
     {
         "id": 4,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Questo è palesemente un libro aperto.",
         "media": "https://unsplash.it/600/400?image=24",
         "author": {
             "name": "Luca Formicola",
@@ -59,13 +59,13 @@ const posts = [
 /* Descrizione**
 Ricreiamo un feed social aggiungendo al layout di base fornito, il nostro script JS in cui:
 Utilizzando la base dati fornita e prendendo come riferimento il layout di esempio presente nell’html, stampiamo i post del nostro feed.
-Formattare le date in formato italiano (gg/mm/aaaa)
+Formattare le date in formato italiano (gg/mm/aaaa)----------------> OK
 ****BONUS**
 1
 Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
 Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 2
-Gestire l’assenza dell’immagine profilo con un elemento di fallback che contiene le iniziali dell’utente (es. Luca Formicola > LF).
+Gestire l’assenza dell’immagine profilo con un elemento di fallback che contiene le iniziali dell’utente (es. Luca Formicola > LF). ----------------> OK
 3
 Al click su un pulsante “Mi Piace” di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone. */
 
@@ -73,11 +73,12 @@ const container = document.getElementById('container');
 
 init();
 
+
+
 function init (){
     generatePosts();
 };
 
-console.log(container);
 
 function generatePosts(){
     posts.forEach(post => {
@@ -88,12 +89,13 @@ function generatePosts(){
 function createDom(post){
     const {id, content, media, author, likes,  created} = post;
     const {name, image} = author;
+    const profilePhoto = generatePhoto(author);
     let card =`
     <div class="post">
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="${image}" alt="${name}">                    
+                        ${profilePhoto}                  
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${name}</div>
@@ -125,11 +127,28 @@ return card;
 };
 
 /* 
-  funzione che inverte la data:
-  1 - splitlo la stringa al separatore del otterenere un array di stringhe
+ inverto la data:
+  1 - split la stringa al separatore del otterenere un array di stringhe
   2 - reverse (inverto) l'array
-  3 join (contario di split) creo una stringa da un array mettendo il separatore      
+  3 - join creo una stringa da un array mettendo il separatore      
 */
 function dateEu(changeDate){
     return changeDate.split('-').reverse().join('-');
+}
+
+function generatePhoto(author){
+    const splitName = author.name.split('');
+    let profilePhoto;
+
+    // creo la condizione affichè venga creata  l'immagine profilo se è null
+    if(author.image === null){
+        profilePhoto = `
+            <div class="profile-pic-default">
+            <span> ${splitName[0][0] + splitName[1][0]}</span>
+            </div>
+        `
+    }else{
+        profilePhoto = `<img class="profile-pic" src="${author.image}" alt="${author.name}">`
+    }
+    return profilePhoto;
 }
